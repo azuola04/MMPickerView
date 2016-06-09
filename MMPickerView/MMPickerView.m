@@ -175,12 +175,12 @@ NSString * const MMshowsSelectionIndicator = @"showsSelectionIndicator";
   UIImage * toolbarImage = options[MMtoolbarBackgroundImage];
   
   //Whole screen with PickerView and a dimmed background
-  _pickerViewContainerView = [[UIView alloc] initWithFrame:view.bounds];
-  [_pickerViewContainerView setBackgroundColor: [UIColor colorWithRed:0.412 green:0.412 blue:0.412 alpha:0.7]];
-  [self addSubview:_pickerViewContainerView];
+//  _pickerViewContainerView = [[UIView alloc] initWithFrame:view.bounds];
+//  [_pickerViewContainerView setBackgroundColor: [UIColor colorWithRed:0.412 green:0.412 blue:0.412 alpha:0.7]];
+//  [self addSubview:_pickerViewContainerView];
   
   //PickerView Container with top bar
-  _pickerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, _pickerViewContainerView.bounds.size.height - 260.0, view.bounds.size.width, 260.0)];
+  _pickerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, view.bounds.size.height - 260.0, view.bounds.size.width, 260.0)];
     
   //Default Color Values (if colors == nil)
   
@@ -223,7 +223,7 @@ NSString * const MMshowsSelectionIndicator = @"showsSelectionIndicator";
    */
   
   _pickerContainerView.backgroundColor = pickerViewBackgroundColor;
-  [_pickerViewContainerView addSubview:_pickerContainerView];
+  [self addSubview:_pickerContainerView];
   
   
   //Content of pickerContainerView
