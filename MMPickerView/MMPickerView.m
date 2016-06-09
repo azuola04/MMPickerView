@@ -105,26 +105,35 @@ NSString * const MMshowsSelectionIndicator = @"showsSelectionIndicator";
 
 -(void)setPickerHidden: (BOOL)hidden
               callBack: (void(^)(NSString *))callBack; {
-  
-  [UIView animateWithDuration:0.3
-                        delay:0.0
-                      options:UIViewAnimationOptionCurveEaseOut
-                   animations:^{
-                     
-                     if (hidden) {
-                       [_pickerViewContainerView setAlpha:0.0];
-                       [_pickerContainerView setTransform:CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(_pickerContainerView.frame))];
-                     } else {
-                       [_pickerViewContainerView setAlpha:1.0];
-                       [_pickerContainerView setTransform:CGAffineTransformIdentity];
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         if (hidden) {
+                             _pickerViewContainerView.alpha = 0;
+                         }
                      }
-                   } completion:^(BOOL completed) {
-                     if(completed && hidden){
-                       [MMPickerView removePickerView];
-                       callBack([self selectedObject]);
-                     }
-                   }];
-  
+                     completion:^(BOOL finished){
+                     }];
+    
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         
+                         if (hidden) {
+                             [_pickerContainerView setTransform:CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(_pickerContainerView.frame))];
+                         } else {
+                             [_pickerContainerView setTransform:CGAffineTransformIdentity];
+                         }
+                     } completion:^(BOOL completed) {
+                         if(completed && hidden){
+                             [MMPickerView removePickerView];
+                             callBack([self selectedObject]);
+                         }
+                     }];
+    
 }
 
 #pragma mark - Initialize PickerView
@@ -174,10 +183,20 @@ NSString * const MMshowsSelectionIndicator = @"showsSelectionIndicator";
   
   UIImage * toolbarImage = options[MMtoolbarBackgroundImage];
   
-  //Whole screen with PickerView and a dimmed background
-//  _pickerViewContainerView = [[UIView alloc] initWithFrame:view.bounds];
-//  [_pickerViewContainerView setBackgroundColor: [UIColor colorWithRed:0.412 green:0.412 blue:0.412 alpha:0.7]];
-//  [self addSubview:_pickerViewContainerView];
+  //  Whole screen with PickerView and a dimmed background
+  _pickerViewContainerView = [[UIView alloc] initWithFrame:view.bounds];
+  [_pickerViewContainerView setBackgroundColor: [UIColor colorWithRed:0.412 green:0.412 blue:0.412 alpha:0.7]];
+  _pickerViewContainerView.alpha = 0;
+  [self addSubview:_pickerViewContainerView];
+
+  [UIView animateWithDuration:0.4
+                      delay:0.0
+                    options: UIViewAnimationCurveEaseOut
+                 animations:^{
+                     _pickerViewContainerView.alpha = 1;
+                 }
+                 completion:^(BOOL finished){
+                 }];
   
   //PickerView Container with top bar
   _pickerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, view.bounds.size.height - 260.0, view.bounds.size.width, 260.0)];
